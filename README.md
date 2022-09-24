@@ -1,0 +1,3 @@
+# .yabai
+
+Yabai config files
