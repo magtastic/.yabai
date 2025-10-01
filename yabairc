@@ -1,9 +1,12 @@
 #!/usr/bin/env sh
+# Something smart from: https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(from-HEAD)#updating-to-latest-head
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+
 # Layout System
 yabai -m config layout                        bsp
 yabai -m config mouse_follows_focus           on
-yabai -m config focus_follows_mouse           off
-yabai -m config window_topmost                on
+yabai -m config focus_follows_mouse           autoraise
 yabai -m config auto_balance                  on
 
 # Variables
@@ -12,19 +15,31 @@ CENTERED_GRID=4:4:1:1:2:2
 # Window Padding
 SPACEBAR_HEIGHT=$(sketchybar -m --query bar  | jq '.height')
 yabai -m config external_bar all:$SPACEBAR_HEIGHT:0
-yabai -m config top_padding    10
-yabai -m config bottom_padding 10
-yabai -m config left_padding   10
-yabai -m config right_padding  10
-yabai -m config window_gap     10
+yabai -m config top_padding    5
+yabai -m config bottom_padding 5
+yabai -m config left_padding   5
+yabai -m config right_padding  5
+yabai -m config window_gap     5
 
 # Applications
 yabai -m rule --add app="^System Settings$" manage=off grid=$CENTERED_GRID
 yabai -m rule --add app="^App Store$" manage=off grid=$CENTERED_GRID
 
 # Delete Screens
-# yabai -m signal --add event=space_changed action="sh /Users/magtastic/.config/yabai/destory_empty_spaces.sh"
+yabai -m signal --add event=space_changed action="sh /Users/magtastic/.config/yabai/destory_empty_spaces.sh"
 
 # Sketchybar events
 yabai -m signal --add event=window_focused action="sketchybar -m --trigger window_focus &> /dev/null"
-yabai -m signal --add event=window_title_changed action="sketchybar -m --trigger title_change &> /dev/null"
+# yabai -m signal --add event=window_title_changed action="sketchybar -m --trigger title_change &> /dev/null"
+
+# applications with custom rules
+popup_applications="(Calendar|Mail|Reminders|Notes|Microsoft Outlook|Discord|Messages|Slack|Safari|Firefox|Chrome|Code|Microsoft Word|Preview|Terminal|iTerm2|QuickTime|Player|Spotify|Music|Brave Browser|Kitty|Alacritty|Trello|Zoom)"
+
+# NOTE: you need to set the settings for the applications in the 
+#       list first, or else they don't apply properly and you can end up with
+#       some weird border/float/window behaviours
+
+# everything listed gets sent to below layer to prevent 
+# them from covering floating applications/popup windows
+yabai -m rule --add app="^${applications}$"    manage=on
+
