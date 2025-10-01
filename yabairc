@@ -8,6 +8,7 @@ yabai -m config layout                        bsp
 yabai -m config mouse_follows_focus           on
 yabai -m config focus_follows_mouse           autoraise
 yabai -m config auto_balance                  on
+yabai -m config debug_output                  off
 
 # Variables
 CENTERED_GRID=4:4:1:1:2:2
@@ -26,7 +27,7 @@ yabai -m rule --add app="^System Settings$" manage=off grid=$CENTERED_GRID
 yabai -m rule --add app="^App Store$" manage=off grid=$CENTERED_GRID
 
 # Delete Screens
-yabai -m signal --add event=space_changed action="sh /Users/magtastic/.config/yabai/destory_empty_spaces.sh"
+yabai -m signal --add event=window_focused action="/Users/magtastic/.config/yabai/destroy_empty_space"
 
 # Sketchybar events
 yabai -m signal --add event=window_focused action="sketchybar -m --trigger window_focus &> /dev/null"

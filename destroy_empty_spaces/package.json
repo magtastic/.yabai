@@ -1,0 +1,16 @@
+{
+	"name": "destroy_empty_spaces",
+	"module": "index.ts",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"start": "bun run index.ts",
+		"build": "bun build index.ts --compile --outfile destroy_empty_space && mv destroy_empty_space .."
+	},
+	"devDependencies": {
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	}
+}
